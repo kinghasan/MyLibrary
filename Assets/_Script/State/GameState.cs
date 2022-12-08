@@ -10,3 +10,9 @@ public enum GameState
     Lose,
     Wait,
 }
+
+public enum ProgramState
+{
+    Ready,
+    Game,
+}

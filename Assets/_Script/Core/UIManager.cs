@@ -29,11 +29,12 @@ public class UIManager : GameEntity<UIManager>
         }
     }
 
-    private void OnPostRender()
+    private void Update()
     {
-        Debug.Log("Post");
         if (_lockTarget != null)
+        {
             DrawLockRange(_lockTargetMeshRect);
+        }
     }
 
     #region Show

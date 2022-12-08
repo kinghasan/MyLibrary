@@ -1,28 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Aya.SimpleAction;
 using Aya.Events;
 
-[RequireComponent(typeof(SimpleActionManager))]
-[RequireComponent(typeof(SaveManager))]
-[RequireComponent(typeof(GamePool))]
-[RequireComponent(typeof(EventManager))]
 public class GameManager : GameEntity<GameManager>
 {
-    public GameState CurrentState { get; set; }
+    public GameState CurrentGameState { get; set; }
+    public ProgramState CurrentProgramState { get; set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Time.timeScale = 1f;
+        BackgroundInit();
+    }
 
     private void Start()
     {
-        Enter(GameState.Ready);
+        CurrentProgramState = ProgramState.Game;
+        Level.Init();
     }
 
     public void Enter(GameState state)
     {
-        CurrentState = state;
+        CurrentGameState = state;
         Dispatch(state);
     }
 
+    #region Dispatch
     [Listen(GameState.Ready)]
     public void Ready()
     {
@@ -58,4 +62,37 @@ public class GameManager : GameEntity<GameManager>
         UI.ShowWindow<UILose>();
         Debug.Log("Lose");
     }
+    #endregion
+
+    #region Background
+    public Transform BackgroundTrans { get; set; }
+    public Transform CurrentBackground { get; set; }
+
+    /// <summary>
+    /// ±³¾°¹¦ÄÜ³õÊ¼»¯
+    /// </summary>
+    public void BackgroundInit()
+    {
+        BackgroundTrans = transform.Find("Background");
+        for (var i = 0; i < BackgroundTrans.childCount; i++)
+        {
+            var child = BackgroundTrans.GetChild(i);
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// ÇÐ»»±³¾°
+    /// </summary>
+    /// <param name="name"></param>
+    public void SwitchBackground(string name)
+    {
+        var background = BackgroundTrans.Find(name);
+        if (background == null) return;
+
+        if (background != CurrentBackground && CurrentBackground != null)
+            CurrentBackground.gameObject.SetActive(false);
+        background.gameObject.SetActive(true);
+    }
+    #endregion
 }

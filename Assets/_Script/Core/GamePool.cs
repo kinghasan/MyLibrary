@@ -61,7 +61,7 @@ public class GamePool : GameEntity<GamePool>
 
                 ins.transform.localPosition = localPosition;
 
-                if(SpawnDic.TryGetValue(prefab, out var spawnList))
+                if (SpawnDic.TryGetValue(prefab, out var spawnList))
                 {
                     spawnList.Add(ins);
                 }
@@ -99,16 +99,22 @@ public class GamePool : GameEntity<GamePool>
         }
     }
 
-    public T Spawn<T>(T prefab,Transform parent = null,Vector3 localPosition = default(Vector3)) where T : Component
+    public T Spawn<T>(T prefab, Transform parent = null, Vector3 localPosition = default(Vector3)) where T : Component
     {
         var ins = Spawn(prefab.gameObject, parent, localPosition);
         return ins.GetComponent<T>();
     }
 
+    public void DeSpawn<T>(T ins) where T : Component
+    {
+        if (ins == null) return;
+        DeSpawn(ins.gameObject);
+    }
+
     public void DeSpawn(GameObject ins)
     {
         var dicKey = default(GameObject);
-        foreach(var key in SpawnDic.Keys)
+        foreach (var key in SpawnDic.Keys)
         {
             var list = SpawnDic[key];
             if (list.Contains(ins))
@@ -134,10 +140,5 @@ public class GamePool : GameEntity<GamePool>
         {
             Object.Destroy(ins);
         }
-    }
-
-    public void DeSpawn<T>(T ins) where T : Component
-    {
-        DeSpawn(ins.gameObject);
     }
 }

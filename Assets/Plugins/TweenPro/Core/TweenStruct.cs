@@ -135,6 +135,9 @@ namespace Aya.TweenPro
             }
         }
 
+        /// <summary>
+        /// 操作物体更新时方法
+        /// </summary>
         public abstract void OnTargetChange();
 
         public override void DrawHead()
@@ -193,12 +196,16 @@ namespace Aya.TweenPro
             }
         }
 
+        /// <summary>
+        /// 重置方法
+        /// </summary>
         public override void Reset()
         {
             TargetTrans = null;
         }
     }
 
+    #region Transform
     [Tween]
     public abstract class TransformTween : Tween<Transform>
     {
@@ -373,6 +380,86 @@ namespace Aya.TweenPro
             To = target.localRotation.eulerAngles;
         }
     }
+    #endregion
+
+    #region Rect
+    [Tween]
+    public abstract class RectTransformTween : Tween<RectTransform>
+    {
+        public static new string EditorName => "RectTransform";
+
+        public override void DrawBottom()
+        {
+            using (GUIHorizontal.Create())
+            {
+                // Ease
+                GUILayout.Label(nameof(Ease), EditorStyles.label, GUILayout.Width(EditorStyle.LabelWidth));
+                var displayEaseName = EaseType.FunctionInfoDic[Ease].DisplayName;
+                var easeRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight, EditorStyles.popup);
+                var easeTypeBtn = GUI.Button(easeRect, displayEaseName, EditorStyles.popup);
+                if (easeTypeBtn)
+                {
+                    var menu = CreateEaseTypeMenu();
+                    menu.ShowAsContext();
+                }
+
+                // Curve
+                GUILayout.Label(nameof(Curve), EditorStyles.label, GUILayout.Width(EditorStyle.LabelWidth));
+                // var curveRect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight, EditorStyles.popup);
+                if (Ease == EaseType.Custom)
+                {
+                    Curve = EditorGUILayout.CurveField(Curve);
+                }
+                else
+                {
+                    using (GUIEnableArea.Create(false))
+                    {
+                        EditorGUILayout.CurveField(Curve); //, GUILayout.Height(EditorStyle.SingleButtonWidth * 2f));
+                    }
+                }
+            }
+        }
+
+        public override void Reset()
+        {
+            TargetTrans = null;
+        }
+    }
+
+    public class RectTransformPosition : RectTransformTween
+    {
+        public static new string EditorName => "RectTransform Position";
+        public Vector2 From;
+        public Vector2 To;
+
+        public override void DrawBody()
+        {
+            From = EditorGUILayout.Vector2Field(new GUIContent(nameof(From)), From);
+            To = EditorGUILayout.Vector2Field(new GUIContent(nameof(To)), To);
+        }
+
+        public override void OnTargetChange()
+        {
+            var obj = (RectTransform)Target;
+            From = obj.anchoredPosition;
+            To = obj.anchoredPosition;
+        }
+
+        public override void Play(float time)
+        {
+            var obj = (RectTransform)Target;
+            obj.anchoredPosition = Vector2.Lerp(From, To, time);
+        }
+
+        public override void ResetAnimation()
+        {
+            base.Reset();
+            Target = null;
+            From = Vector2.zero;
+            To = Vector2.zero;
+        }
+    }
+    #endregion
 
     public class TweenAttribute : Attribute { }
 }

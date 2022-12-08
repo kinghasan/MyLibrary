@@ -5,10 +5,10 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 [Serializable]
-public class Level
+public class Level : GameEntity
 {
-    [Title("¹Ø¿¨Êý¾Ý")]
-    public int ID;
-    public string LevelName;
-    public Transform Trans;
+    public void Init()
+    {
+
+    }
 }
