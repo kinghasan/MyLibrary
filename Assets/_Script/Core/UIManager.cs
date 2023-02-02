@@ -14,7 +14,7 @@ public class UIManager : GameEntity<UIManager>
     public List<UIWindow> WindowStack { get; set; } = new List<UIWindow>();
     //µ±Ç°´°¿Ú
     public UIWindow Current { get; set; }
-    private Transform _lockTarget;
+    public Transform _lockTarget;
     private Mesh _lockTargetMesh;
     private Rect _lockTargetMeshRect => RenderExtension.GetMeshRectInScreen(_lockTargetMesh);
 
@@ -143,7 +143,6 @@ public class UIManager : GameEntity<UIManager>
         GL.End();
 
         GL.PopMatrix();
-        Debug.Log("Draw");
     }
 
     #endregion

@@ -11,12 +11,12 @@ public class GameManager : GameEntity<GameManager>
     {
         base.Awake();
         Time.timeScale = 1f;
-        BackgroundInit();
     }
 
     private void Start()
     {
         CurrentProgramState = ProgramState.Game;
+        Background.Init();
         Level.Init();
     }
 
@@ -61,38 +61,6 @@ public class GameManager : GameEntity<GameManager>
     {
         UI.ShowWindow<UILose>();
         Debug.Log("Lose");
-    }
-    #endregion
-
-    #region Background
-    public Transform BackgroundTrans { get; set; }
-    public Transform CurrentBackground { get; set; }
-
-    /// <summary>
-    /// ±³¾°¹¦ÄÜ³õÊ¼»¯
-    /// </summary>
-    public void BackgroundInit()
-    {
-        BackgroundTrans = transform.Find("Background");
-        for (var i = 0; i < BackgroundTrans.childCount; i++)
-        {
-            var child = BackgroundTrans.GetChild(i);
-            child.gameObject.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// ÇÐ»»±³¾°
-    /// </summary>
-    /// <param name="name"></param>
-    public void SwitchBackground(string name)
-    {
-        var background = BackgroundTrans.Find(name);
-        if (background == null) return;
-
-        if (background != CurrentBackground && CurrentBackground != null)
-            CurrentBackground.gameObject.SetActive(false);
-        background.gameObject.SetActive(true);
     }
     #endregion
 }

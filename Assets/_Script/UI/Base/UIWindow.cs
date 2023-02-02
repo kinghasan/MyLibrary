@@ -23,7 +23,7 @@ public abstract class UIWindow : UIBase
         }
         if (!string.IsNullOrEmpty(SwitchBackground))
         {
-            Game.SwitchBackground(SwitchBackground);
+            Background.Switch(SwitchBackground);
         }
     }
 

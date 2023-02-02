@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class GameEntity : MonoListener
 {
@@ -15,6 +16,7 @@ public abstract class GameEntity : MonoListener
     public LevelManager Level => LevelManager.Ins;
     public GamePool GamePool => GamePool.Ins;
     public SaveManager Save => SaveManager.Ins;
+    public BackgroundManager Background => BackgroundManager.Ins;
     public GameTool Tool => GameTool.Ins;
     public GameState GameState => Game.CurrentGameState;
     public ProgramState ProgramState => Game.CurrentProgramState;
@@ -53,6 +55,20 @@ public abstract class GameEntity : MonoListener
     public void Dispatch(object eventType, params object[] args)
     {
         EventManager.Ins.SendDispatch(eventType, args);
+    }
+
+    /// <summary>
+    /// 判断是否点击在UI上，真机适用
+    /// </summary>
+    /// <returns></returns>
+    public bool IsPointerOverGameObject()
+    {
+        PointerEventData eventData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+        eventData.pressPosition = Input.mousePosition;
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> list = new List<RaycastResult>();
+        UnityEngine.EventSystems.EventSystem.current.RaycastAll(eventData, list);
+        return list.Count > 0;
     }
 }
 

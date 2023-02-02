@@ -8,6 +8,7 @@ Shader "Aya/Paint/Paintable"
         //_BumpMap("Normal", 2D) = "white" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
+        _UVScale("UVScale", Range(0,1)) = 0.0
 
         [Head(Paint)]
         _MaskTex("Mask (RGB)", 2D) = "black" {}
@@ -35,6 +36,7 @@ Shader "Aya/Paint/Paintable"
 
         half _Glossiness;
         half _Metallic;
+        float _UVScale;
         fixed4 _Color;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
@@ -56,6 +58,7 @@ Shader "Aya/Paint/Paintable"
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
             o.Alpha = c.a;
+            o.Alpha = 0;
         }
         ENDCG
     }

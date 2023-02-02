@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92859768e30cdc47b8c39728866996f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextState: 0
+  NextState: 1
   ToNextType: 0
   CloseBtn: {fileID: 0}
   SwitchCamera: 
