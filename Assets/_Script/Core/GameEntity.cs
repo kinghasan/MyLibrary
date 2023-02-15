@@ -70,6 +70,119 @@ public abstract class GameEntity : MonoListener
         UnityEngine.EventSystems.EventSystem.current.RaycastAll(eventData, list);
         return list.Count > 0;
     }
+
+    #region Transform
+
+    [NonSerialized] public Transform Trans;
+
+    public Vector3 Forward
+    {
+        get => Trans.forward;
+        set => Trans.forward = value;
+    }
+
+    public Vector3 Backward
+    {
+        get => -Trans.forward;
+        set => Trans.forward = -value;
+    }
+
+    public Vector3 Right
+    {
+        get => Trans.right;
+        set => Trans.right = value;
+    }
+
+    public Vector3 Left
+    {
+        get => -Trans.right;
+        set => Trans.right = -value;
+    }
+
+    public Vector3 Up
+    {
+        get => Trans.up;
+        set => Trans.up = value;
+    }
+
+    public Vector3 Down
+    {
+        get => -Trans.up;
+        set => Trans.up = -value;
+    }
+
+    public Vector3 Position
+    {
+        get => Trans.position;
+        set => Trans.position = value;
+    }
+
+    public Vector3 LocalPosition
+    {
+        get => Trans.localPosition;
+        set => Trans.localPosition = value;
+    }
+
+    public Quaternion Rotation
+    {
+        get => Trans.rotation;
+        set => Trans.rotation = value;
+    }
+
+    public Quaternion LocalRotation
+    {
+        get => Trans.localRotation;
+        set => Trans.localRotation = value;
+    }
+
+    public Vector3 EulerAngles
+    {
+        get => Trans.eulerAngles;
+        set => Trans.eulerAngles = value;
+    }
+
+    public Vector3 LocalEulerAngles
+    {
+        get => Trans.localEulerAngles;
+        set => Trans.localEulerAngles = value;
+    }
+
+    public Vector3 LocalScale
+    {
+        get => Trans.localScale;
+        set => Trans.localScale = value;
+    }
+
+    public float LocalScaleValue
+    {
+        set => Trans.localScale = Vector3.one * value;
+    }
+
+    #endregion
+
+    #region Parent
+
+    public Transform Parent
+    {
+        get => Trans.parent;
+        set
+        {
+            if (!gameObject.activeInHierarchy) return;
+            Trans.parent = value;
+        }
+    }
+
+    //public void SetParentToLevel()
+    //{
+    //    Parent = CurrentLevel.Trans;
+    //}
+
+    public void ClearParent()
+    {
+        Parent = null;
+    }
+
+    #endregion
 }
 
 public abstract class GameEntity<T> : GameEntity where T : GameEntity<T>
