@@ -18,6 +18,8 @@ public abstract class GameEntity : MonoListener
     public SaveManager Save => SaveManager.Ins;
     public BackgroundManager Background => BackgroundManager.Ins;
     public GameTool Tool => GameTool.Ins;
+    public UpgradeManager Upgrade => UpgradeManager.Ins;
+
     public GameState GameState => Game.CurrentGameState;
     public ProgramState ProgramState => Game.CurrentProgramState;
     public bool IsGaming => ProgramState == ProgramState.Game;
@@ -40,6 +42,11 @@ public abstract class GameEntity : MonoListener
         }
     }
 
+    /// <summary>
+    /// 世界坐标转UI坐标(默认Main摄像机)
+    /// </summary>
+    /// <param name="worldPosition"></param>
+    /// <returns></returns>
     public Vector3 WorldToUIPosition(Vector3 worldPosition)
     {
         // Canvas Overlay

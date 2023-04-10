@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class UpgradeStep : StepBase<UpgradeData>
+public class UpgradeStep : StepBase<MoneyData>
 {
     protected override void Awake()
     {
@@ -21,7 +21,7 @@ public class UpgradeStep : StepBase<UpgradeData>
 }
 
 [Serializable]
-public class UpgradeData : StepData
+public class MoneyData : StepData
 {
     [Tooltip("½ðÇ®")]public float Money;
 }

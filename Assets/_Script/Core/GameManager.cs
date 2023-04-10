@@ -26,41 +26,37 @@ public class GameManager : GameEntity<GameManager>
         Dispatch(state);
     }
 
-    #region Dispatch
+    #region Dispatch GameState
     [Listen(GameState.Ready)]
     public void Ready()
     {
         if (UI == null) return;
         UI.ShowWindow<UIReady>();
-        Debug.Log("Ready");
     }
 
     [Listen(GameState.Game)]
     public void StartGame()
     {
         UI.ShowWindow<UIGame>();
-        Debug.Log("Game");
+        var info = Upgrade.GetInfo<TestData>();
     }
 
     [Listen(GameState.Wait)]
     public void Wait()
     {
         UI.ShowWindow<UIWait>();
-        Debug.Log("Wait");
     }
 
     [Listen(GameState.Win)]
     public void Win()
     {
         UI.ShowWindow<UIWin>();
-        Debug.Log("Win");
     }
 
     [Listen(GameState.Lose)]
     public void Lose()
     {
         UI.ShowWindow<UILose>();
-        Debug.Log("Lose");
     }
     #endregion
 }

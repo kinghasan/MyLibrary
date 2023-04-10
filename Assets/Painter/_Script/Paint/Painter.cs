@@ -9,24 +9,25 @@ public class Painter : GameEntity
     [Space]
     public Color paintColor;
     public bool mouseSingleClick;
+    public bool Erase;
 
-    [Min(0.5f)]
+    [Min(0.01f)]
     public float radius = 1;
     public float strength = 1;
     public float hardness = 1;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             var ray = cam.ScreenPointToRay(Input.mousePosition);
             //var layerMask = 1 << 9;
             Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Paintable"));
-            Debug.DrawRay(cam.transform.position, hit.point - ray.origin, Color.red);
             if (hit.collider != null)
             {
+                transform.position = hit.point;
                 var paintable = hit.collider.GetComponent<Paintable>();
-                PainterManager.Ins.Paint(paintable, hit.point, radius, strength, hardness, paintColor);
+                PainterManager.Ins.Paint(paintable, hit.point, radius, strength, hardness, Erase ? paintable.BaseColor : paintColor);
             }
         }
     }

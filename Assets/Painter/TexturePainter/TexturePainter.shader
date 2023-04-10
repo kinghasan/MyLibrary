@@ -1,5 +1,5 @@
-Shader "Aya/Paint/TexturePainter"
-{
+Shader "LSQ/Effect/Paint/TexturePainter"
+{   
     SubShader
     {
         Cull Off ZWrite Off ZTest Off
@@ -12,7 +12,7 @@ Shader "Aya/Paint/TexturePainter"
 
             #include "UnityCG.cginc"
 
-            sampler2D _MainTex;
+			sampler2D _MainTex;
 
             float3 _Position;
             float4 _Color;
@@ -25,7 +25,7 @@ Shader "Aya/Paint/TexturePainter"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
             };
 
             struct v2f
@@ -38,22 +38,22 @@ Shader "Aya/Paint/TexturePainter"
             float mask(float3 position, float3 center, float radius, float hardness)
             {
                 float m = distance(center, position);
-                return 1 - smoothstep(radius * hardness, radius, m);
+                return 1 - smoothstep(radius * hardness, radius, m);    
             }
 
-            v2f vert(appdata v)
+            v2f vert (appdata v)
             {
                 v2f o;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 o.uv = v.uv;
-                float4 uv = float4(0, 0, 0, 1);
+				float4 uv = float4(0, 0, 0, 1);
                 uv.xy = float2(1, _ProjectionParams.x) * (v.uv.xy * 2 - 1);
-                o.vertex = uv;
+				o.vertex = uv; 
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
-            {
+            fixed4 frag (v2f i) : SV_Target
+            {  
                 if (_DebugUV)
                 {
                     return 1;

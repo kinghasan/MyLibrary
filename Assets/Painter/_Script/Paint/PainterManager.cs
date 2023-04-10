@@ -43,7 +43,17 @@ public class PainterManager : GameEntity<PainterManager>
         command.Clear();
     }
 
-    public void Paint(Paintable paintable, Vector3 pos, float radius = 10f, float hardness = 0.5f, float strength = 0.5f, Color color = default(Color))
+    public void ClearRT(RenderTexture rt)
+    {
+        CommandBuffer command = new CommandBuffer();
+        command.SetRenderTarget(rt);
+        command.ClearRenderTarget(true, true, Color.clear);
+        Graphics.ExecuteCommandBuffer(command);
+        command.Clear();
+    }
+
+    public void Paint(Paintable paintable, Vector3 pos, float radius = 1f,
+        float hardness = .5f, float strength = .5f, Color? color = null)
     {
         RenderTexture mask = paintable.GetMask();
         RenderTexture copy = paintable.GetCopy();
@@ -51,16 +61,15 @@ public class PainterManager : GameEntity<PainterManager>
 
         paintMaterial.SetInt(debugUVID, 0);
         paintMaterial.SetVector(positionID, pos);
-        paintMaterial.SetColor(colorID, color);
+        paintMaterial.SetColor(colorID, color ?? Color.red);
         paintMaterial.SetFloat(hardnessID, hardness);
         paintMaterial.SetFloat(strengthID, strength);
         paintMaterial.SetFloat(radiusID, radius);
         paintMaterial.SetTexture(textureID, copy);
 
-        //paintMaterial.SetInt(debugUVID, 1);
-
         command.SetRenderTarget(mask);
         command.DrawRenderer(rend, paintMaterial, 0);
+
         command.SetRenderTarget(copy);
         command.Blit(mask, copy);
 
