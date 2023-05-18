@@ -7,6 +7,18 @@ namespace Aya.Extension
     public static class ListExtension
     {
         /// <summary>
+        /// 获取第一个元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static T First<T>(this List<T> list)
+        {
+            var result = list != null && list.Count > 0 ? list[0] : default(T);
+            return result;
+        }
+
+        /// <summary>
         /// 获取最后一个元素
         /// </summary>
         /// <typeparam name="T"></typeparam>

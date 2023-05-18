@@ -6,11 +6,13 @@ public class GameManager : GameEntity<GameManager>
 {
     public GameState CurrentGameState { get; set; }
     public ProgramState CurrentProgramState { get; set; }
+    public MaterialPropertyBlock SimpleBlock { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
         Time.timeScale = 1f;
+        SimpleBlock = new MaterialPropertyBlock();
     }
 
     private void Start()
