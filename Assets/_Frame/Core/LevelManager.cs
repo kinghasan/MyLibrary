@@ -13,7 +13,7 @@ public class LevelManager : GameEntity<LevelManager>
 
     public Level Current { get; set; }
 
-    public void Init()
+    public void LevelStart()
     {
         var levelIndex = Save.LevelIndex.Value;
         if (Current != null)
@@ -52,6 +52,7 @@ public class LevelManager : GameEntity<LevelManager>
         Current.transform.SetParent(null);
         Current.Init();
 
-        Game.Enter(GameState.Ready);
+        Game.Init();
+        Game.Enter(GamePhaseType.Ready);
     }
 }

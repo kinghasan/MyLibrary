@@ -21,8 +21,8 @@ public abstract class GameEntity : MonoListener
     public UpgradeManager Upgrade => UpgradeManager.Ins;
 
     public GameState GameState => Game.CurrentGameState;
-    public ProgramState ProgramState => Game.CurrentProgramState;
-    public bool IsGaming => ProgramState == ProgramState.Game;
+    public GamePhaseType GamePhase => GameState.Type;
+    public bool IsGaming => GamePhase == GamePhaseType.Gaming;
 
     protected override void Awake()
     {

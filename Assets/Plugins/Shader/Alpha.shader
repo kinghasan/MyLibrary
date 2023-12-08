@@ -2,6 +2,7 @@ Shader "Custom/Alpha"
 {
     Properties
     {
+      _AlphaColor("HiddenColor",COLOR)=(1,1,1,1)
       _MainTex("Texture", 2D) = "white" {}
       _Cube("Env Cubemap", CUBE) = "" {}
       _AlphaCubemap("Alpha Cubemap", CUBE) = "" {}
@@ -41,6 +42,7 @@ Shader "Custom/Alpha"
         float _AlphaPower;
         float _Solidity;
         float _Refract;
+        float4 _AlphaColor;
 
         void surf(Input IN, inout SurfaceOutputStandard o)
         {
@@ -54,6 +56,10 @@ Shader "Custom/Alpha"
 
           float3 color = lerp(cubeSample, cubeSample * textureSample, 1 - alphaSample);
           float alpha = lerp(_Solidity, 1.0, refract + alphaSample);
+          if(textureSample.r == _AlphaColor.r &&textureSample.g == _AlphaColor.g && textureSample.b == _AlphaColor.b)
+          {
+            alpha = 0;
+          }
 
           o.Albedo = color;
           o.Emission = color;
